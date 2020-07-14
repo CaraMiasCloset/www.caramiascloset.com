@@ -1,3 +1,13 @@
 .navbar-custom {
     background-color: #fcdad4;
+    height: 80px;
+}
+
+.navbar-brand {
+  padding-bottom: 20px;
+}
+
+a.navbar-callout > img {
+  padding-bottom: 30px;
+  padding-right: 5px;
 }
