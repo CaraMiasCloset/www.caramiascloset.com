@@ -7,5 +7,6 @@ main > .container {
   font-family: 'Tangerine', cursive;
   font-size: 2em;
   line-height: 0.5;
-  padding-top: 55px;
+  margin-top: 55px;
+  margin-bottom: 55px;
 }
