@@ -12,11 +12,9 @@ COPY . /app
 
 RUN ng build
 
-FROM nginx:1.18.0 AS caramiascloset
+FROM nginx:1.18.0-alpine AS caramiascloset
 
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /app/dist/caraMiasCloset /usr/share/nginx/html
-RUN ls -l /usr/share/nginx/html
-RUN ls -l /usr/share/nginx
 CMD ["nginx", "-g", "daemon off;"]
