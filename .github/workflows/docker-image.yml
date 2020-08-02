@@ -19,10 +19,10 @@ jobs:
     - name: Build the Docker image
       run: docker build -t $IMAGE_NAME .
 
-    - name: Login to registry (master only)
+    - name: Login to registry - master only
       run: [[ "${{ github.event_name }}" == "push" ]] && (echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin)
 
-    - name: Push package to registry (master only)
+    - name: Push package to registry - master only
       run: |
         [[ "${{ github.event_name }}" == "push" ]] || exit
 
