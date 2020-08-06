@@ -6,13 +6,36 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  IMAGE_NAME: caramiascloset
+
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build -t caramiascloset:$(date +%s) .
+      - uses: actions/checkout@v2
+
+      - name: Build the Docker image
+        run: docker build -t $IMAGE_NAME .
+
+      - name: Login to registry
+        run: |
+          [[ "${{ github.event_name }}" == "push" ]] || exit 0
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push package to registry
+        run: |
+          [[ "${{ github.event_name }}" == "push" ]] || exit 0
+
+          # Construct Image Id
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          VERSION="latest"
+
+          echo "IMAGE_ID=$IMAGE_ID"
+          echo "VERSION=$VERSION"
+
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
