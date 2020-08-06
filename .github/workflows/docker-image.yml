@@ -21,12 +21,12 @@ jobs:
 
       - name: Login to registry
         run: |
-          [[ "${{ github.event_name }}" == "push" ]] || exit
+          [[ "${{ github.event_name }}" == "push" ]] || exit 0
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
       - name: Push package to registry
         run: |
-          [[ "${{ github.event_name }}" == "push" ]] || exit
+          [[ "${{ github.event_name }}" == "push" ]] || exit 0
 
           # Construct Image Id
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
