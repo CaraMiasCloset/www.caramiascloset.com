@@ -21,7 +21,8 @@ jobs:
 
       - name: Login to registry
         run: |
-          [[ "${{ github.event_name }}" == "push" ]] && (echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin)
+          [[ "${{ github.event_name }}" == "push" ]] || exit
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
       - name: Push package to registry
         run: |
